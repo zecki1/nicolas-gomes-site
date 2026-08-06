@@ -374,7 +374,7 @@ const siteData: SiteData = {
   contato: {
     titulo: { ptBR: "Contato", en: "Contact", es: "Contacto" },
     localizacao: "São Paulo - SP",
-    email: "nickgomes@email.com",
+    email: "nick.gomes@hotmail.com",
     telefone: "55+(11) 93015-4717",
   },
 };

@@ -5,7 +5,7 @@ import { resolve } from 'path';
 const serviceAccountPath = resolve(process.cwd(), 'serviceAccountKey.json');
 const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf8'));
 
-const EMAIL = process.argv[2] || process.env.NICOLAS_EMAIL || 'nicolasgomestattoo@hotmail.com';
+const EMAIL = process.argv[2] || process.env.NICOLAS_EMAIL || 'nick.gomes@hotmail.com';
 const PASSWORD = process.env.NICOLAS_PASSWORD || '';
 const SITE_URL = process.env.NICOLAS_SITE_URL || 'https://nicolasgomestattoo.com.br';
 const HARDCODED_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID || '';
@@ -70,7 +70,7 @@ const siteData = {
   contato: {
     titulo: { ptBR: "Contato", en: "Contact", es: "Contacto" },
     localizacao: "São Paulo - SP",
-    email: "nickgomes@email.com",
+    email: "nick.gomes@hotmail.com",
     telefone: "55+(11) 93015-4717",
   },
 };
