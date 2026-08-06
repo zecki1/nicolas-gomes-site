@@ -9,6 +9,12 @@ import { useTranslation } from 'react-i18next';
 type MultiLangText = { ptBR: string; en: string; es: string;[key: string]: string; };
 type AboutData = { titulo: MultiLangText; subtitulo: MultiLangText; texto: MultiLangText; imagemPerfilUrl: string; };
 
+const profileAlt: MultiLangText = {
+  ptBR: 'Foto de Perfil de Nicolas Gomes',
+  en: 'Profile picture of Nicolas Gomes',
+  es: 'Foto de perfil de Nicolas Gomes',
+};
+
 export function AboutSection({ data }: { data: AboutData }) {
     const { i18n } = useTranslation();
     const [isMounted, setIsMounted] = useState(false);
@@ -38,7 +44,7 @@ export function AboutSection({ data }: { data: AboutData }) {
                             ))}
                         </div>
                         <div className="col-span-12 lg:col-span-3 flex justify-center" data-aos="fade-up" data-aos-delay="100">
-                            <Image src={data.imagemPerfilUrl} alt="Foto de Perfil de Nicolas Gomes" width={250} height={250} className="rounded-lg object-cover shadow-lg" />
+                            <Image src={data.imagemPerfilUrl} alt={profileAlt[currentLanguage] || profileAlt.ptBR} width={250} height={250} className="rounded-lg object-cover shadow-lg" />
                         </div>
                     </div>
                 </div>

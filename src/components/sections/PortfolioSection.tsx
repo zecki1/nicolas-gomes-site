@@ -31,6 +31,28 @@ const categoryMap: Record<string, MultiLangText> = {
   papel: { ptBR: 'Papel', en: 'Paper', es: 'Papel' },
 };
 
+const uiTexts = {
+  videoBadge: { ptBR: 'Vídeo', en: 'Video', es: 'Video' },
+  reelBadge: { ptBR: 'Reel', en: 'Reel', es: 'Reel' },
+  videoSuffix: { ptBR: 'vídeo', en: 'video', es: 'video' },
+  youtubeVideoAria: { ptBR: 'Vídeo do YouTube', en: 'YouTube video', es: 'Vídeo de YouTube' },
+  videoAria: { ptBR: 'Vídeo', en: 'Video', es: 'Video' },
+  emptyCategory: {
+    ptBR: 'Nenhum trabalho encontrado nesta categoria.',
+    en: 'No works found in this category.',
+    es: 'No se encontraron trabajos en esta categoría.',
+  },
+  viewerTitle: { ptBR: 'Visualizador do Portfólio', en: 'Portfolio Viewer', es: 'Visor del Portafolio' },
+  filterAria: { ptBR: 'Filtrar por categoria', en: 'Filter by category', es: 'Filtrar por categoría' },
+  galleryAria: { ptBR: 'Galeria do portfólio', en: 'Portfolio gallery', es: 'Galería del portafolio' },
+  thumbsAria: { ptBR: 'Miniaturas do portfólio', en: 'Portfolio thumbnails', es: 'Miniaturas del portafolio' },
+  closeViewerAria: { ptBR: 'Fechar visualizador', en: 'Close viewer', es: 'Cerrar visor' },
+  current: { ptBR: 'atual', en: 'current', es: 'actual' },
+  selected: { ptBR: 'selecionado', en: 'selected', es: 'seleccionado' },
+};
+
+const tr = (text: MultiLangText, lang: LanguageKey): string => text[lang] || text.ptBR;
+
 function MediaCard({ item, onClick, currentLanguage, index }: {
   item: PortfolioItem; onClick: () => void; currentLanguage: LanguageKey; index: number;
 }) {
@@ -51,7 +73,7 @@ function MediaCard({ item, onClick, currentLanguage, index }: {
     >
       <button
         onClick={onClick}
-        aria-label={`${title}${isVideo ? ' (vídeo)' : ''}`}
+        aria-label={`${title}${isVideo ? ` (${tr(uiTexts.videoSuffix, currentLanguage)})` : ''}`}
         className="group relative w-full overflow-hidden rounded-xl bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
         <div className="relative w-full" style={{ aspectRatio: isVideo ? '9/16' : '4/5' }}>
@@ -79,9 +101,9 @@ function MediaCard({ item, onClick, currentLanguage, index }: {
           )}
           <div className="absolute top-3 right-3 flex gap-1.5">
             {isVideo && (
-              <span className="bg-black/60 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full flex items-center gap-1" aria-label={item.tipo === 'youtube' ? `Vídeo do YouTube: ${title}` : `Vídeo: ${title}`}>
+              <span className="bg-black/60 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-full flex items-center gap-1" aria-label={`${item.tipo === 'youtube' ? tr(uiTexts.youtubeVideoAria, currentLanguage) : tr(uiTexts.videoAria, currentLanguage)}: ${title}`}>
                 {item.tipo === 'youtube' ? <Youtube className="w-3 h-3" aria-hidden="true" /> : <Play className="w-3 h-3 fill-white" aria-hidden="true" />}
-                {item.tipo === 'youtube' ? 'Reel' : 'Vídeo'}
+                {item.tipo === 'youtube' ? tr(uiTexts.reelBadge, currentLanguage) : tr(uiTexts.videoBadge, currentLanguage)}
               </span>
             )}
           </div>
@@ -103,7 +125,7 @@ function MediaViewer({ item, currentLanguage }: { item: PortfolioItem; currentLa
         <iframe
           src={getYoutubeEmbedUrl(item.youtubeUrl)}
           className="w-full h-full"
-          title={`Vídeo do YouTube: ${title}`}
+          title={`${tr(uiTexts.youtubeVideoAria, currentLanguage)}: ${title}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
@@ -118,7 +140,7 @@ function MediaViewer({ item, currentLanguage }: { item: PortfolioItem; currentLa
           controls
           className="max-h-full max-w-full"
           playsInline
-          aria-label={`Vídeo: ${title}`}
+          aria-label={`${tr(uiTexts.videoAria, currentLanguage)}: ${title}`}
         />
       </div>
     );
@@ -148,7 +170,7 @@ function ThumbnailStrip({ items, currentIndex, onSelect, currentLanguage }: {
   }, [currentIndex]);
 
   return (
-    <div ref={scrollRef} className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-thin" role="tablist" aria-label="Miniaturas do portfólio">
+    <div ref={scrollRef} className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-thin" role="tablist" aria-label={tr(uiTexts.thumbsAria, currentLanguage)}>
       {items.map((item, i) => {
         const title = item.titulo[currentLanguage] || item.titulo.ptBR;
         const imgSrc = item.tipo === 'youtube' && !item.imagemUrl
@@ -160,7 +182,7 @@ function ThumbnailStrip({ items, currentIndex, onSelect, currentLanguage }: {
             onClick={() => onSelect(i)}
             role="tab"
             aria-selected={i === currentIndex}
-            aria-label={`${title}${i === currentIndex ? ' (atual)' : ''}`}
+            aria-label={`${title}${i === currentIndex ? ` (${tr(uiTexts.current, currentLanguage)})` : ''}`}
             className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-all duration-200 ${
               i === currentIndex ? 'ring-2 ring-primary ring-offset-2 ring-offset-black scale-110' : 'opacity-50 hover:opacity-80'
             }`}
@@ -200,7 +222,7 @@ function LightboxContent({ items, startIndex, onClose, currentLanguage, isMobile
         <span className="text-sm text-white/60" aria-live="polite">
           {current} / {items.length}
         </span>
-        <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fechar visualizador" className="text-white/60 hover:text-white rounded-full">
+        <Button variant="ghost" size="icon" onClick={onClose} aria-label={tr(uiTexts.closeViewerAria, currentLanguage)} className="text-white/60 hover:text-white rounded-full">
           <X className="w-5 h-5" aria-hidden="true" />
         </Button>
       </div>
@@ -274,7 +296,7 @@ export function PortfolioSection({ data }: { data: PortfolioData }) {
 
   return (
     <SectionWrapper id="portfolio" title={titulo} subtitle={subtitulo}>
-      <div className="mb-10 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Filtrar por categoria">
+      <div className="mb-10 flex flex-wrap justify-center gap-2" role="tablist" aria-label={tr(uiTexts.filterAria, currentLanguage)}>
         {categories.map(cat => {
           const label = cat === '*' ? categoryMap.all[currentLanguage] : (categoryMap[cat]?.[currentLanguage] || cat);
           return (
@@ -283,7 +305,7 @@ export function PortfolioSection({ data }: { data: PortfolioData }) {
               onClick={() => setFilter(cat)}
               role="tab"
               aria-selected={filter === cat}
-              aria-label={`${label}${filter === cat ? ' (selecionado)' : ''}`}
+              aria-label={`${label}${filter === cat ? ` (${tr(uiTexts.selected, currentLanguage)})` : ''}`}
               className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 filter === cat
                   ? 'text-primary-foreground'
@@ -305,7 +327,7 @@ export function PortfolioSection({ data }: { data: PortfolioData }) {
       </div>
 
       <AnimatePresence mode="popLayout">
-        <div className="columns-2 md:columns-3 gap-4 space-y-0" role="list" aria-label="Galeria do portfólio">
+        <div className="columns-2 md:columns-3 gap-4 space-y-0" role="list" aria-label={tr(uiTexts.galleryAria, currentLanguage)}>
           {filteredItems.map((item, index) => (
             <MediaCard
               key={item.id}
@@ -320,14 +342,14 @@ export function PortfolioSection({ data }: { data: PortfolioData }) {
 
       {filteredItems.length === 0 && (
         <div className="text-center py-20 text-muted-foreground" role="status">
-          <p className="text-lg">Nenhum trabalho encontrado nesta categoria.</p>
+          <p className="text-lg">{tr(uiTexts.emptyCategory, currentLanguage)}</p>
         </div>
       )}
 
       {isMobile ? (
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerContent className="h-[95dvh] bg-black border-t border-white/10">
-            <VisuallyHidden><DrawerTitle>Visualizador do Portfólio</DrawerTitle></VisuallyHidden>
+            <VisuallyHidden><DrawerTitle>{tr(uiTexts.viewerTitle, currentLanguage)}</DrawerTitle></VisuallyHidden>
             <LightboxContent
               items={filteredItems}
               startIndex={startIndex}
@@ -340,7 +362,7 @@ export function PortfolioSection({ data }: { data: PortfolioData }) {
       ) : (
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="sm:max-w-[95vw] w-[95vw] h-[90vh] bg-black border-white/10 p-0 gap-0">
-            <VisuallyHidden><DialogTitle>Visualizador do Portfólio</DialogTitle></VisuallyHidden>
+            <VisuallyHidden><DialogTitle>{tr(uiTexts.viewerTitle, currentLanguage)}</DialogTitle></VisuallyHidden>
             <LightboxContent
               items={filteredItems}
               startIndex={startIndex}

@@ -7,7 +7,7 @@ const serviceAccount = JSON.parse(readFileSync(serviceAccountPath, 'utf8'));
 
 const EMAIL = process.argv[2] || process.env.NICOLAS_EMAIL || 'nick.gomes@hotmail.com';
 const PASSWORD = process.env.NICOLAS_PASSWORD || '';
-const SITE_URL = process.env.NICOLAS_SITE_URL || 'https://nicolasgomestattoo.com.br';
+const SITE_URL = process.env.NICOLAS_SITE_URL || 'https://nickgomes.com.br';
 const HARDCODED_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID || '';
 
 let CLIENT_ID = HARDCODED_CLIENT_ID;

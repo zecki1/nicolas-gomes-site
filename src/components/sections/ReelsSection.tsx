@@ -25,6 +25,14 @@ type PortfolioItem = {
 };
 type LanguageKey = 'ptBR' | 'en' | 'es';
 
+const uiTexts = {
+  viewerTitle: { ptBR: 'Visualizador de Reels', en: 'Reels Viewer', es: 'Visor de Reels' },
+  close: { ptBR: 'Fechar', en: 'Close', es: 'Cerrar' },
+  videoPrefix: { ptBR: 'Vídeo', en: 'Video', es: 'Video' },
+};
+
+const tr = (text: MultiLangText, lang: LanguageKey): string => text[lang] || text.ptBR;
+
 export function ReelsSection({ items }: { items: PortfolioItem[] }) {
   const { i18n } = useTranslation();
   const [isMounted, setIsMounted] = useState(false);
@@ -107,13 +115,13 @@ export function ReelsSection({ items }: { items: PortfolioItem[] }) {
 
       <Dialog open={selectedIndex !== null} onOpenChange={(open) => { if (!open) setSelectedIndex(null); }}>
         <DialogContent className="sm:max-w-[90vw] w-[95vw] h-[85vh] bg-black border-white/10 p-0 gap-0">
-          <VisuallyHidden><DialogTitle>Visualizador de Reels</DialogTitle></VisuallyHidden>
+          <VisuallyHidden><DialogTitle>{tr(uiTexts.viewerTitle, currentLanguage)}</DialogTitle></VisuallyHidden>
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-end px-4 py-3 border-b border-white/10">
               <span className="text-sm text-white/60 mr-auto" aria-live="polite">
                 {(selectedIndex ?? 0) + 1} / {reels.length}
               </span>
-              <button onClick={() => setSelectedIndex(null)} className="text-white/60 hover:text-white p-1" aria-label="Fechar">
+              <button onClick={() => setSelectedIndex(null)} className="text-white/60 hover:text-white p-1" aria-label={tr(uiTexts.close, currentLanguage)}>
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -129,7 +137,7 @@ export function ReelsSection({ items }: { items: PortfolioItem[] }) {
                   <iframe
                     src={getYoutubeEmbedUrl(reels[selectedIndex].youtubeUrl!)}
                     className="w-full h-full rounded-xl"
-                    title={`Vídeo: ${reels[selectedIndex].titulo[currentLanguage] || reels[selectedIndex].titulo.ptBR}`}
+                    title={`${tr(uiTexts.videoPrefix, currentLanguage)}: ${reels[selectedIndex].titulo[currentLanguage] || reels[selectedIndex].titulo.ptBR}`}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />

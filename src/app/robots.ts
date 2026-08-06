@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/', // Exemplo de pasta privada que você não quer indexar
         },
-        sitemap: 'https://nicolasgomestattoo.com.br/sitemap.xml',
+        sitemap: 'https://nickgomes.com.br/sitemap.xml',
     }
 }

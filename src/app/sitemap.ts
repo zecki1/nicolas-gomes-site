@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
-            url: 'https://nicolasgomestattoo.com.br',
+            url: 'https://nickgomes.com.br',
             lastModified: new Date(),
             changeFrequency: 'yearly',
             priority: 1,

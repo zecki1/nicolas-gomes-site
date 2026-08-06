@@ -21,6 +21,17 @@ const navLinks = [
   { id: 'contact', icon: Mail, label: { ptBR: 'Contato', en: 'Contact', es: 'Contacto' } },
 ];
 
+const uiTexts = {
+  skipLink: { ptBR: 'Ir para o conteúdo principal', en: 'Skip to main content', es: 'Ir al contenido principal' },
+  mainNavAria: { ptBR: 'Navegação principal', en: 'Main navigation', es: 'Navegación principal' },
+  mobileNavAria: { ptBR: 'Navegação mobile', en: 'Mobile navigation', es: 'Navegación móvil' },
+  openMenuAria: { ptBR: 'Abrir menu de navegação', en: 'Open navigation menu', es: 'Abrir menú de navegación' },
+  currentLangAria: { ptBR: 'Idioma atual', en: 'Current language', es: 'Idioma actual' },
+  clickToChangeAria: { ptBR: 'Clique para alternar.', en: 'Click to switch.', es: 'Haz clic para cambiar.' },
+  enableLightAria: { ptBR: 'Ativar modo claro', en: 'Enable light mode', es: 'Activar modo claro' },
+  enableDarkAria: { ptBR: 'Ativar modo escuro', en: 'Enable dark mode', es: 'Activar modo oscuro' },
+};
+
 function NavLink({ id, children, onClick, isActive, className }: {
   id: string; children: React.ReactNode; onClick?: () => void; isActive?: boolean; className?: string;
 }) {
@@ -42,13 +53,13 @@ function NavLink({ id, children, onClick, isActive, className }: {
   );
 }
 
-function SkipLink() {
+function SkipLink({ lang }: { lang: keyof typeof uiTexts.skipLink }) {
   return (
     <a
       href="#main-content"
       className="fixed top-0 left-0 z-[100] -translate-y-full focus:translate-y-0 bg-primary text-primary-foreground px-4 py-2 text-sm font-medium transition-transform focus:outline-none focus:ring-2 focus:ring-ring"
     >
-      Ir para o conteúdo principal
+      {uiTexts.skipLink[lang] || uiTexts.skipLink.ptBR}
     </a>
   );
 }
@@ -58,8 +69,10 @@ export function Header() {
   const { i18n } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const handleScroll = () => {
       const scrollPos = window.scrollY + 120;
       for (let i = navLinks.length - 1; i >= 0; i--) {
@@ -77,6 +90,8 @@ export function Header() {
 
   const currentLangCode = i18n.language || 'ptBR';
   const currentLangLabel = languages.find(l => l.code === currentLangCode)?.label || 'BR';
+  const currentLangKey = currentLangCode as keyof typeof uiTexts.skipLink;
+  const isDark = isMounted ? theme === 'dark' : false;
 
   const cycleLanguage = () => {
     const idx = languages.findIndex(l => l.code === i18n.language);
@@ -87,12 +102,12 @@ export function Header() {
 
   return (
     <>
-      <SkipLink />
+      <SkipLink lang={currentLangKey} />
       <header
         className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-md border-b border-border/50"
         role="banner"
       >
-        <nav className="container mx-auto px-4 h-16 flex items-center justify-between" aria-label="Navegação principal">
+        <nav className="container mx-auto px-4 h-16 flex items-center justify-between" aria-label={uiTexts.mainNavAria[currentLangKey] || uiTexts.mainNavAria.ptBR}>
           <NavLink id="hero" className="text-lg font-bold tracking-tight text-foreground hover:text-primary transition-colors shrink-0">
             Nicolas Gomes
           </NavLink>
@@ -123,7 +138,7 @@ export function Header() {
             <button
               onClick={cycleLanguage}
               className="w-9 h-9 rounded-full text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200"
-              aria-label={`Idioma atual: ${currentLangLabel}. Clique para alternar.`}
+              aria-label={`${uiTexts.currentLangAria[currentLangKey] || uiTexts.currentLangAria.ptBR}: ${currentLangLabel}. ${uiTexts.clickToChangeAria[currentLangKey] || uiTexts.clickToChangeAria.ptBR}`}
             >
               {currentLangLabel}
             </button>
@@ -131,17 +146,19 @@ export function Header() {
             <button
               onClick={toggleTheme}
               className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200"
-              aria-label={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              aria-label={isDark
+                ? (uiTexts.enableLightAria[currentLangKey] || uiTexts.enableLightAria.ptBR)
+                : (uiTexts.enableDarkAria[currentLangKey] || uiTexts.enableDarkAria.ptBR)}
             >
               <AnimatePresence initial={false} mode="wait">
                 <motion.div
-                  key={theme === 'dark' ? 'moon' : 'sun'}
+                  key={isDark ? 'moon' : 'sun'}
                   initial={{ y: -16, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 16, opacity: 0 }}
                   transition={{ duration: 0.15 }}
                 >
-                  {theme === 'dark' ? (
+                  {isDark ? (
                     <Sun className="w-4 h-4" aria-hidden="true" />
                   ) : (
                     <Moon className="w-4 h-4" aria-hidden="true" />
@@ -154,13 +171,13 @@ export function Header() {
               <SheetTrigger asChild>
                 <button
                   className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-200 ml-1"
-                  aria-label="Abrir menu de navegação"
+                  aria-label={uiTexts.openMenuAria[currentLangKey] || uiTexts.openMenuAria.ptBR}
                 >
                   <Menu className="w-5 h-5" aria-hidden="true" />
                 </button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72">
-                <nav className="flex flex-col gap-2 mt-12" aria-label="Navegação mobile">
+                <nav className="flex flex-col gap-2 mt-12" aria-label={uiTexts.mobileNavAria[currentLangKey] || uiTexts.mobileNavAria.ptBR}>
                   {navLinks.map(link => {
                     const Icon = link.icon;
                     const label = link.label[currentLangCode as keyof typeof link.label] || link.label.ptBR;

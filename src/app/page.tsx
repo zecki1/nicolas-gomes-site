@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { Header } from "@/components/layout/Header";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ReelsSection } from "@/components/sections/ReelsSection";
 import { AboutSection } from "@/components/sections/AboutSection";
@@ -71,6 +72,7 @@ export default async function ModernHomePage() {
         <ContactSection data={data.contato} />
       </main>
       <Footer social={data.social} />
+      <WhatsAppButton url={data.social.whatsapp || 'https://wa.me/5511930154717'} />
     </div>
   );
 }

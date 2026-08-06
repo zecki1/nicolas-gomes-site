@@ -13,31 +13,49 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nicolasgomestattoo.com.br"),
-  title: "Nicolas Gomes - Tatuador",
-  description: "Portfólio de tatuagens de Nicolas Gomes. Arte, criatividade e tinta na pele. Explore meus trabalhos e agende sua sessão.",
-  keywords: "tatuagem, tatuador, Nicolas Gomes, tattoo, ink, arte na pele, body art, tatuador profissional",
+  metadataBase: new URL("https://nickgomes.com.br"),
+  title: {
+    default: "Tatuador em São Paulo | Nicolas Gomes Tattoo",
+    template: "%s | Nicolas Gomes Tattoo",
+  },
+  description:
+    "Tatuador em São Paulo especializado em tatuagem autoral e personalizada. Desenhos exclusivos criados do papel para a sua pele, com atendimento acolhedor. Agende sua sessão pelo WhatsApp ou Instagram e eternize sua história com uma tattoo única.",
+  keywords:
+    "tatuador em são paulo, tatuagem autoral, tatuagem personalizada, tattoo sp, estúdio de tatuagem, tatuador profissional, tatuagem exclusiva, tatuagem neo tradicional, desenhos de tattoo, agendar tatuagem, nicolas gomes, nickgomes tattoo",
+  alternates: {
+    canonical: "https://nickgomes.com.br",
+  },
   openGraph: {
-    title: "Nicolas Gomes - Tatuador",
-    description: "Portfólio de tatuagens de Nicolas Gomes. Explore meus trabalhos e agende sua sessão.",
-    url: "https://nicolasgomestattoo.com.br",
-    siteName: "Nicolas Gomes - Tatuador",
-    images: [{ url: "/assets/img/perfil.jpg", width: 800, height: 600, alt: "Nicolas Gomes" }],
+    title: "Tatuador em São Paulo | Nicolas Gomes Tattoo",
+    description:
+      "Tatuagem autoral e personalizada em São Paulo. Desenhos exclusivos do papel para a sua pele. Agende sua sessão e eternize sua história com uma tattoo única.",
+    url: "https://nickgomes.com.br",
+    siteName: "Nicolas Gomes Tattoo",
+    images: [
+      {
+        url: "https://nickgomes.com.br/assets/img/perfil.webp",
+        width: 500,
+        height: 787,
+        alt: "Nicolas Gomes - Tatuador em São Paulo",
+      },
+    ],
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nicolas Gomes - Tatuador",
-    description: "Portfólio de tatuagens de Nicolas Gomes. Explore meus trabalhos e agende sua sessão.",
-    images: ["/assets/img/perfil.jpg"],
+    title: "Tatuador em São Paulo | Nicolas Gomes Tattoo",
+    description:
+      "Tatuagem autoral e personalizada em São Paulo. Desenhos exclusivos do papel para a sua pele. Agende sua sessão.",
+    images: ["https://nickgomes.com.br/assets/img/perfil.webp"],
   },
   icons: {
     icon: [
-      { url: '/assets/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/assets/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: "/assets/img/perfil.webp", sizes: "any", type: "image/webp" },
+      { url: "/assets/favicons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/assets/favicons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: '/assets/favicons/apple-touch-icon.png',
+    apple: "/assets/favicons/apple-touch-icon.png",
   },
 };
 

@@ -1,4 +1,4 @@
-# Nicolas Gomes — Site do Cliente (nicolasgomestattoo.com.br)
+# Nicolas Gomes — Site do Cliente (nickgomes.com.br)
 
 Site público de alto desempenho do tatuador **Nicolas Gomes**, gerado com **Next.js (SSG + ISR)** e alimentado por um **CMS multi-site** centralizado em `zecki1.com.br`.
 
@@ -52,7 +52,7 @@ NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
 2. No painel da Vercel, clique em **New Project** e importe o repositório.
 3. Adicione as variáveis de ambiente acima (o `NEXT_PUBLIC_*` precisa de prefixo público; `REVALIDATE_TOKEN` pode ser privado).
 4. Framework preset: **Next.js** (automático).
-5. **Deploy.** O domínio será gerado (`*.vercel.app`) — configure o domínio customizado `nicolasgomestattoo.com.br` em **Settings → Domains**.
+5. **Deploy.** O domínio será gerado (`*.vercel.app`) — configure o domínio customizado `nickgomes.com.br` em **Settings → Domains**.
 
 ### Comandos úteis
 
